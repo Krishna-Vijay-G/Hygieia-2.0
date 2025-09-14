@@ -428,7 +428,7 @@ graph LR
 ```bash
 # Development Server (Main App)
 cd Hygieia/
-python app.py                              # Runs on localhost:5000
+python main.py                              # Runs on localhost:5000
 
 # Development Server (Simple Site)
 cd simple_site/
@@ -592,5 +592,6 @@ This project establishes new benchmarks for medical AI applications:
 **Project Repository:** Hygieia Medical AI System  
 **Documentation:** Complete technical specifications included  
 **Support:** Available for deployment and integration assistance  
+
 
 ---
