@@ -1,6 +1,9 @@
 # Hygieia Beta - AI-Powered Medical Diagnostic Platform
 
-![Hygieia Logo](static/hygieia_color.svg)
+
+<p align="center">
+  <img src="hygieia_color.svg" alt="drawing" width="300">
+</p>
 
 ## Project Overview
 
@@ -266,5 +269,6 @@ This AI-powered health analysis tool is for **educational and informational purp
 All rights reserved. This codebase is proprietary and is not licensed for distribution or modification without explicit permission.
 
 ---
+
 
 © Hygieia Beta Project, 2025.
