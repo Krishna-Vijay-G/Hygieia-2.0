@@ -186,23 +186,23 @@ score = clf.score(X_test, y_test)
 - **Label Classes:** akiec, bcc, bkl, df, mel, nv, vasc
 
 ### Model Comparison Table
-| Model              | CV Mean | CV Std | Precision | Recall | F1     | Duration (s) |
-|--------------------|---------|--------|-----------|--------|--------|--------------|
-| RandomForest       | 0.664   | 0.034  | 1.0       | 1.0    | 1.0    | 10.16        |
-| ExtraTrees         | 0.663   | 0.033  | 1.0       | 1.0    | 1.0    | 5.05         |
-| AdaBoost           | 0.593   | 0.025  | 0.735     | 0.716  | 0.719  | 158.51       |
-| GradientBoosting   | 0.680   | 0.028  | 1.0       | 1.0    | 1.0    | 2539.25      |
-| LogisticRegression | 0.703   | 0.046  | 1.0       | 1.0    | 1.0    | 3.49         |
-| SVM                | 0.636   | 0.031  | 0.864     | 0.863  | 0.863  | 22.50        |
-| KNN                | 0.599   | 0.010  | 0.734     | 0.716  | 0.720  | 2.48         |
-| MLP                | 0.693   | 0.040  | 1.0       | 1.0    | 1.0    | 19.68        |
-| DecisionTree       | 0.510   | 0.006  | 1.0       | 1.0    | 1.0    | 9.77         |
-| SGD                | 0.681   | 0.039  | 1.0       | 1.0    | 1.0    | 2.88         |
-| LDA                | 0.651   | 0.046  | 0.929     | 0.929  | 0.929  | 3.14         |
-| XGBoost            | 0.690   | 0.034  | 1.0       | 1.0    | 1.0    | 395.64       |
-| LightGBM           | 0.711   | 0.046  | 1.0       | 1.0    | 1.0    | 377.53       |
-| Voting             | 0.707   | 0.039  | 1.0       | 1.0    | 1.0    | 40.52        |
-| Stacking           | 0.701   | 0.037  | 1.0       | 1.0    | 1.0    | 173.50       |
+| Model              | CV Mean | CV Std | Precision | Recall | F1     | Duration (MM.SS.s) |
+|--------------------|---------|--------|-----------|--------|--------|--------------------|
+| RandomForest       | 0.664   | 0.034  | 1.0       | 1.0    | 1.0    | 0.10.160           |
+| ExtraTrees         | 0.663   | 0.033  | 1.0       | 1.0    | 1.0    | 0.05.050           |
+| AdaBoost           | 0.593   | 0.025  | 0.735     | 0.716  | 0.719  | 2.38.510           |
+| GradientBoosting   | 0.680   | 0.028  | 1.0       | 1.0    | 1.0    | 42.19.250          |
+| LogisticRegression | 0.703   | 0.046  | 1.0       | 1.0    | 1.0    | 0.03.490           |
+| SVM                | 0.636   | 0.031  | 0.864     | 0.863  | 0.863  | 0.22.500           |
+| KNN                | 0.599   | 0.010  | 0.734     | 0.716  | 0.720  | 0.02.480           |
+| MLP                | 0.693   | 0.040  | 1.0       | 1.0    | 1.0    | 0.19.680           |
+| DecisionTree       | 0.510   | 0.006  | 1.0       | 1.0    | 1.0    | 0.09.770           |
+| SGD                | 0.681   | 0.039  | 1.0       | 1.0    | 1.0    | 0.02.880           |
+| LDA                | 0.651   | 0.046  | 0.929     | 0.929  | 0.929  | 0.03.140           |
+| XGBoost            | 0.690   | 0.034  | 1.0       | 1.0    | 1.0    | 6.35.640           |
+| LightGBM           | 0.711   | 0.046  | 1.0       | 1.0    | 1.0    | 6.17.530           |
+| Voting             | 0.707   | 0.039  | 1.0       | 1.0    | 1.0    | 0.40.520           |
+| Stacking           | 0.701   | 0.037  | 1.0       | 1.0    | 1.0    | 2.53.500           |
 
 ### Benchmarking Scripts
 - `test_7_per_class_benchmark.py`: Runs predictions on 7 images per class, prints metrics and confusion matrix.
@@ -261,3 +261,4 @@ score = clf.score(X_test, y_test)
 - [XGBoost Documentation](https://xgboost.readthedocs.io/en/latest/)
 
 *Report generated on October 12, 2025.*
+
