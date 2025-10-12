@@ -108,7 +108,7 @@ for image_id in df['image_id'][:10]:
 flowchart TD
     A[Start] --> B[Select Image]
     B --> C[Preprocess Image]
-    C --> D[Extract Embedding (Derm Foundation)]
+    C --> D[Extract Embedding -Derm Foundation]
     D --> E[Engineer Features]
     E --> F[Scale & Select Features]
     F --> G[Optimized Classifier Prediction]
@@ -126,7 +126,7 @@ flowchart TD
     M[Start Training] --> N[Load HAM10000 Data]
     N --> O[Extract Embeddings]
     O --> P[Engineer Features]
-    P --> Q[Split Data (Train/Test)]
+    P --> Q[Split Data -Train/Test]
     Q --> R[Train Multiple Classifiers]
     R --> S[Cross-Validation]
     S --> T[Select Best Model]
@@ -247,3 +247,4 @@ score = clf.score(X_test, y_test)
 - [XGBoost Documentation](https://xgboost.readthedocs.io/en/latest/)
 
 *Report generated on October 12, 2025.*
+
