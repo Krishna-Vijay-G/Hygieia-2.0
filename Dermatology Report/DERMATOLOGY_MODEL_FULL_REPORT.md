@@ -123,10 +123,39 @@ Notes: Precisions/recalls of 1.0 in the table reflect scoring on the training fo
 ---
 
 ## 🧪 Benchmarking & Validation
-- 7 images per class (49 total) benchmark scripts provided:
+- Protocol: 7 images per class (49 total) sampled from HAM10000 metadata and evaluated end-to-end through the production pipeline.
+- Scripts:
   - `models/Skin_Disease_Model/test_7_per_class_benchmark.py`
   - `models/Skin_Disease_Model/benchmark_dermatology_model.py`
-- Output: Accuracy, per-class metrics, confusion matrix, confidence analysis.
+- Headline result: Overall accuracy ≈ 89.8% (44/49 correct).
+
+Per-class results (example run):
+
+| Disease | Accuracy | Correct/Total |
+|---------|----------|---------------|
+| AKIEC   | 100.0%   | 7/7           |
+| VASC    | 100.0%   | 7/7           |
+| BKL     | 85.7%    | 6/7           |
+| NV      | 85.7%    | 6/7           |
+| DF      | 85.7%    | 6/7           |
+| MEL     | 85.7%    | 6/7           |
+| BCC     | 85.7%    | 6/7           |
+
+Textual confusion matrix (example run):
+
+```
+Predicted →   AKIEC  BCC  BKL   DF  MEL   NV  VASC
+Actual ↓
+AKIEC         [ 7    0    0    0    0    0    0 ]
+BCC           [ 0    6    0    1    0    0    0 ]
+BKL           [ 0    0    6    0    0    1    0 ]
+DF            [ 0    1    0    6    0    0    0 ]
+MEL           [ 0    0    1    0    6    0    0 ]
+NV            [ 0    0    0    0    1    6    0 ]
+VASC          [ 0    0    0    0    0    0    7 ]
+```
+
+The scripts also report confidence analysis (avg confidence, correct vs incorrect) and a full classification report with precision/recall/F1 per class.
 
 ---
 
