@@ -75,6 +75,20 @@ def predict_image(image_input):
     return result
 ```
 
+### 3.4 Classifier Internals (Inference)
+- Deployed classifier: LightGBM (`LGBMClassifier(random_state=42)`) loaded from `models/Skin_Disease_Model/new_optimized_classifier.joblib`.
+- Preprocessing components bundled with the classifier:
+    - `StandardScaler` (applied to the 6224-dim engineered feature vector)
+    - `LabelEncoder` with classes: `['akiec','bcc','bkl','df','mel','nv','vasc']`
+    - `feature_selector`: None in this bundle (not applied)
+- Inference flow:
+    1) Generate 6144-D embedding via Derm Foundation SavedModel
+    2) Engineer robust 6224-D features (stats, segments, frequency, gradients, textures)
+    3) Scale features via StandardScaler (and selector if present)
+    4) Predict class and probabilities via LGBMClassifier
+    5) Decode to class code via LabelEncoder and map to condition name and risk level
+- Fallback: If the joblib is unavailable or inference fails, a heuristic `fallback_pattern_analysis` produces a safe prediction with capped confidence.
+
 ## 4. Workflow & Pipeline
 
 ### Full Pipeline Code Example
@@ -108,7 +122,7 @@ for image_id in df['image_id'][:10]:
 flowchart TD
     A[Start] --> B[Select Image]
     B --> C[Preprocess Image]
-    C --> D[Extract Embedding -Derm Foundation]
+    C --> D[Extract Embedding (Derm Foundation)]
     D --> E[Engineer Features]
     E --> F[Scale & Select Features]
     F --> G[Optimized Classifier Prediction]
@@ -126,7 +140,7 @@ flowchart TD
     M[Start Training] --> N[Load HAM10000 Data]
     N --> O[Extract Embeddings]
     O --> P[Engineer Features]
-    P --> Q[Split Data -Train/Test]
+    P --> Q[Split Data (Train/Test)]
     Q --> R[Train Multiple Classifiers]
     R --> S[Cross-Validation]
     S --> T[Select Best Model]
@@ -247,4 +261,3 @@ score = clf.score(X_test, y_test)
 - [XGBoost Documentation](https://xgboost.readthedocs.io/en/latest/)
 
 *Report generated on October 12, 2025.*
-
