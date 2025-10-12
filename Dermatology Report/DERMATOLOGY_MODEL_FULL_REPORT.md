@@ -186,27 +186,34 @@ score = clf.score(X_test, y_test)
 - **Label Classes:** akiec, bcc, bkl, df, mel, nv, vasc
 
 ### Model Comparison Table
-| Model              | CV Mean | CV Std | Precision | Recall | F1     | Duration (MM.SS.s) |
-|--------------------|---------|--------|-----------|--------|--------|--------------------|
-| RandomForest       | 0.664   | 0.034  | 1.0       | 1.0    | 1.0    | 0.10.160           |
-| ExtraTrees         | 0.663   | 0.033  | 1.0       | 1.0    | 1.0    | 0.05.050           |
-| AdaBoost           | 0.593   | 0.025  | 0.735     | 0.716  | 0.719  | 2.38.510           |
-| GradientBoosting   | 0.680   | 0.028  | 1.0       | 1.0    | 1.0    | 42.19.250          |
-| LogisticRegression | 0.703   | 0.046  | 1.0       | 1.0    | 1.0    | 0.03.490           |
-| SVM                | 0.636   | 0.031  | 0.864     | 0.863  | 0.863  | 0.22.500           |
-| KNN                | 0.599   | 0.010  | 0.734     | 0.716  | 0.720  | 0.02.480           |
-| MLP                | 0.693   | 0.040  | 1.0       | 1.0    | 1.0    | 0.19.680           |
-| DecisionTree       | 0.510   | 0.006  | 1.0       | 1.0    | 1.0    | 0.09.770           |
-| SGD                | 0.681   | 0.039  | 1.0       | 1.0    | 1.0    | 0.02.880           |
-| LDA                | 0.651   | 0.046  | 0.929     | 0.929  | 0.929  | 0.03.140           |
-| XGBoost            | 0.690   | 0.034  | 1.0       | 1.0    | 1.0    | 6.35.640           |
-| LightGBM           | 0.711   | 0.046  | 1.0       | 1.0    | 1.0    | 6.17.530           |
-| Voting             | 0.707   | 0.039  | 1.0       | 1.0    | 1.0    | 0.40.520           |
-| Stacking           | 0.701   | 0.037  | 1.0       | 1.0    | 1.0    | 2.53.500           |
+| Model              | CV Mean | CV Std | Precision | Recall | F1     | Duration (s) |
+|--------------------|---------|--------|-----------|--------|--------|--------------|
+| RandomForest       | 0.664   | 0.034  | 1.0       | 1.0    | 1.0    | 0.10.160     |
+| ExtraTrees         | 0.663   | 0.033  | 1.0       | 1.0    | 1.0    | 0.05.050     |
+| AdaBoost           | 0.593   | 0.025  | 0.735     | 0.716  | 0.719  | 2.38.510     |
+| GradientBoosting   | 0.680   | 0.028  | 1.0       | 1.0    | 1.0    | 42.19.250    |
+| LogisticRegression | 0.703   | 0.046  | 1.0       | 1.0    | 1.0    | 0.03.490     |
+| SVM                | 0.636   | 0.031  | 0.864     | 0.863  | 0.863  | 0.22.500     |
+| KNN                | 0.599   | 0.010  | 0.734     | 0.716  | 0.720  | 0.02.480     |
+| MLP                | 0.693   | 0.040  | 1.0       | 1.0    | 1.0    | 0.19.680     |
+| DecisionTree       | 0.510   | 0.006  | 1.0       | 1.0    | 1.0    | 0.09.770     |
+| SGD                | 0.681   | 0.039  | 1.0       | 1.0    | 1.0    | 0.02.880     |
+| LDA                | 0.651   | 0.046  | 0.929     | 0.929  | 0.929  | 0.03.140     |
+| XGBoost            | 0.690   | 0.034  | 1.0       | 1.0    | 1.0    | 6.35.640     |
+| LightGBM           | 0.711   | 0.046  | 1.0       | 1.0    | 1.0    | 6.17.530     |
+| Voting             | 0.707   | 0.039  | 1.0       | 1.0    | 1.0    | 0.40.520     |
+| Stacking           | 0.701   | 0.037  | 1.0       | 1.0    | 1.0    | 2.53.500     |
 
 ### Benchmarking Scripts
 - `test_7_per_class_benchmark.py`: Runs predictions on 7 images per class, prints metrics and confusion matrix.
 - `benchmark_dermatology_model.py`: Advanced benchmarking, colored output, section headers, metrics, confusion matrix.
+
+### Why LightGBM was selected
+- Best cross-validated accuracy among tested models: CV mean ≈ 0.711 (5-fold), slightly above Voting (≈0.707), Stacking (≈0.701), Logistic Regression (≈0.703), and XGBoost (≈0.690), per `training_report_700.json`.
+- Strong performance on high-dimensional tabular features (6224 engineered features), capturing non-linear interactions and handling correlated inputs effectively.
+- Balanced training/inference trade-off: Training time ≈ 377.53s (significantly faster than GradientBoosting at ≈ 2539.25s) with better CV mean; inference is fast and stable.
+- Clean deployment: Simple pipeline (StandardScaler + LGBMClassifier, no feature selector) with calibrated probabilities via `predict_proba` that integrate well with risk-level logic and UI.
+- Verified artifact: The deployed `new_optimized_classifier.joblib` contains `LGBMClassifier(random_state=42)`, a `StandardScaler`, and a `LabelEncoder` for the seven HAM10000 classes.
 
 ---
 
@@ -261,4 +268,3 @@ score = clf.score(X_test, y_test)
 - [XGBoost Documentation](https://xgboost.readthedocs.io/en/latest/)
 
 *Report generated on October 12, 2025.*
-
