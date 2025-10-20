@@ -498,8 +498,13 @@ INFO:__main__:Model saved successfully
 ```
 
 ---
+**Author**: AI04
 
 **Report Generated**: October 20, 2025
+
 **Model Version**: derm_model
+
 **Validation Status**: ✅ COMPLETE
+
 **Clinical Approval**: 🏥 RECOMMENDED
+
