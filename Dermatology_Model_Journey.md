@@ -962,7 +962,7 @@ HAM10000/
 
 **Archived/Deprecated Files:**
 ```
-models/Skin_Disease_Model/
+derm_backup/
   ├── optimized_dermatology_model.joblib  - OLD (Sept 13, 315 samples)
   ├── optimized_0.joblib                  - Experimental
   ├── optimized_1_315.joblib              - Experimental
