@@ -14,67 +14,26 @@ This appendix documents the evaluation datasets used in the study. Only the HAM1
 
 ## C.2 HAM10000 (Dermatology)
 
-### C.2.1 Snapshot
-- Samples: 10,015 RGB dermatoscopic images (JPEG)
-- Classes (dx): akiec, bcc, bkl, df, mel, nv, vasc (7-class classification)
-- Class distribution (approx.): nv 6705 (66.95%), mel 1113 (11.11%), bkl 1099 (10.97%), bcc 514 (5.13%), akiec 327 (3.26%), vasc 142 (1.42%), df 115 (1.15%)
-- Majority/minority ratio ≈ 58.3 (nv/df)
-
-### C.2.2 Metadata schema (HAM10000_metadata.csv)
-| Field | Type | Description |
-|------|------|-------------|
-| lesion_id | string | Unique lesion identifier (used for group-wise splits) |
-| image_id | string | Image filename (maps to images/ directory) |
-| dx | categorical | Target label (akiec, bcc, bkl, df, mel, nv, vasc) |
-| dx_type | categorical | Diagnostic method (histo, follow_up, consensus, etc.) |
-| age | int | Patient age (may include missing) |
-| sex | categorical | male / female / unknown |
-| localization | categorical | Anatomical site |
-
-### C.2.3 Preprocessing and splits
-- Preprocess: load → center-crop/pad as needed → resize to 448×448 → float32 normalize to [0,1].
-- Split strategy: 80/20 train–test with stratification by dx and strict grouping by lesion_id to prevent leakage across splits.
-- Cross-validation: Stratified K=5 on the training portion only; all transforms fitted only on training folds.
-
-### C.2.4 Training-time augmentation (not applied to validation/test)
-- Rotation ±15°, horizontal flip enabled, brightness ±10%; vertical flip disabled.
-
-### C.2.5 Quality, leakage, and risks
-- Leakage guard: lesion_id-based group split; no test images seen during feature selection/calibration.
-- Imbalance: strong majority class (nv); mitigated downstream via calibration and ensemble probability handling.
-- Potential biases: limited geographic/skin-type diversity; label-confidence heterogeneity via dx_type.
-- Ethics: images are de-identified; additional external validation recommended before clinical use.
+- Size/labels: 10,015 RGB images; 7 classes (akiec, bcc, bkl, df, mel, nv, vasc)
+- Class balance (approx.): nv 66.95%, mel 11.11%, bkl 10.97%, bcc 5.13%, akiec 3.26%, vasc 1.42%, df 1.15% (majority/minority ≈ 58.3)
+- Metadata fields: lesion_id, image_id, dx, dx_type, age, sex, localization (see dataset card)
+- Preprocess: resize to 448×448; normalize to [0,1]
+- Split: stratified 80/20 with lesion_id grouping (prevents leakage); CV: stratified K=5 on train only
+- Augment (train only): rotation ±15°, horizontal flip, brightness ±10%
+- Risks/ethics: severe class imbalance; geographic/skin-type bias possible; labels vary by dx_type; images de-identified; external validation advised
 
 ---
 
 ## C.3 UCI Early Stage Diabetes (Tabular)
 
-### C.3.1 Snapshot
-- Samples: 520 patient records; nearly balanced (Outcome=1: 268, Outcome=0: 252)
-- Features: 18 total — Age, Gender, and 16 binary symptoms (Yes/No)
-- Target: Outcome ∈ {0,1}
-
-### C.3.2 Feature dictionary (concise)
-| Feature | Type | Notes |
-|---------|------|-------|
-| Age | int | Age in years |
-| Gender | categorical | Male/Female (binary encoded) |
-| Polyuria, Polydipsia, sudden weight loss, weakness, Polyphagia, Genital thrush, visual blurring, Itching, Irritability, delayed healing, partial paresis, muscle stiffness, Alopecia, Obesity | binary | Yes/No → 1/0 |
-| class (renamed Outcome) | binary target | Positive=1, Negative=0 |
-
-### C.3.3 Preprocessing and validation
-- Encoding: Gender → {Male:1, Female:0}; symptoms Yes/No → {1/0}.
-- Split strategy: 80/20 stratified train–test on Outcome; transforms fitted on training only.
-- Cross-validation: Stratified K=5 on training data; mean ± std reported across folds.
-
-### C.3.4 Risks and ethics
-- Geographic scope: single-region cohort; external validity must be established.
-- Symptom-only inputs lack intensity/temporal granularity; should not replace clinical testing.
-- Data are de-identified; maintain appropriate safeguards in deployment.
+- Size/labels: 520 records; Outcome ∈ {0,1}; nearly balanced (268/252)
+- Features: 18 total — Age, Gender, 16 binary symptoms (Yes/No → 1/0); Gender encoded {Male:1, Female:0}
+- Split/CV: stratified 80/20 on Outcome; stratified K=5 on train; transforms fitted on training only
+- Risks/ethics: single-center cohort limits external validity; symptoms lack intensity/temporal detail; de-identified data; do not replace clinical tests
 
 ---
 
-## C.4 Consolidated quick reference
+## C.4 Quick reference
 | Item | HAM10000 | UCI Early Stage Diabetes |
 |------|----------|--------------------------|
 | Modality | Images (RGB JPEG) | Tabular (symptoms) |
@@ -88,16 +47,10 @@ This appendix documents the evaluation datasets used in the study. Only the HAM1
 
 ---
 
-## C.5 Reproducibility notes
-- Seeds: global 42; additional evaluation seeds 123/456/789.
-- All preprocessing/feature steps are fitted on training folds and applied to held-out data.
-- Dataset placement:
-  - HAM10000: `Derm upgrade/HAM10000/{HAM10000_metadata.csv, images/}`
-  - UCI Diabetes: `Diab upgrade/Diabetes_Model/diabetes.csv`
-- Scope reminder: Only evaluation datasets are listed; Derm Foundation pre-training data are excluded by design.
+## C.5 Reproducibility
+- Seeds: global 42; evaluation seeds 123/456/789
+- Fit all preprocessing/feature steps on training folds; apply to held-out only
+- Paths: HAM10000 → `Derm upgrade/HAM10000/{HAM10000_metadata.csv, images/}`; UCI → `Diab upgrade/Diabetes_Model/diabetes.csv`
+- Scope: only evaluation datasets; Derm Foundation pre-training excluded
 
 ---
-
-*End of Appendix C*
-
-
